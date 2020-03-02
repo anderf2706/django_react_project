@@ -38,8 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'GAE.apps.GaeConfig',
-    'rest_framework',
-    'url_checker'
+    'url_checker',
 ]
 
 MIDDLEWARE = [

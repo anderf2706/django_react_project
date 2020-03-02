@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from url_checker.views import check_url
+from url_checker.views import check_url, FrontendAppView
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('url_checker', check_url),
+    url(r'^', FrontendAppView.as_view()),
 ]
