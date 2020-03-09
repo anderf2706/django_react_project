@@ -78,12 +78,33 @@ WSGI_APPLICATION = 'django_react.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if os.getenv('GAE_APPLICATION', None):
+    # Running on production App Engine, so connect to Google Cloud SQL using
+    # the unix socket at /cloudsql/<your-cloudsql-connection string>
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '/cloudsql/durs-3280:europe-north1:django-react-server',
+            'USER': 'root',
+            'PASSWORD': '3280TjodalynG',
+            'NAME': 'webserver',
+        }
     }
-}
+else:
+    # Running locally so connect to either a local MySQL instance or connect
+    # to Cloud SQL via the proxy.  To start the proxy via command line:
+    #    $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:6544
+    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '35.228.226.85',
+            'PORT': '3306',
+            'NAME': 'webserver',
+            'USER': 'root',
+            'PASSWORD': '3280TjodalynG',
+        }
+    }
 
 
 # Password validation
@@ -121,7 +142,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = 'frontend/build/static'
+STATIC_ROOT = 'static'
 
 STATIC_URL = '/static/'
 
